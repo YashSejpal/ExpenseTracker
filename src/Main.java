@@ -47,8 +47,8 @@ public class Main {
                     String date = sc.nextLine();
                     service.addExpense(new Expense(cat, amt, date));
                 } else if (option == 2) {
-                    double total = service.loadExpenses().stream().mapToDouble(Expense::getAmount).sum();
-                    System.out.println("Total: ₹" + total);
+                    double total = service.getTotalExpense();
+                    System.out.println("Total: " + total);
                 } else if (option == 3) {
                     Map<String, Double> byCategory = service.getExpenseByCategory();
                     System.out.println("\nCategory:\tExpense");
@@ -58,11 +58,7 @@ public class Main {
                 } else if (option == 4) {
                     service.getExpenseTrend();
                 } else if (option == 5) {
-                    Map<String, Double> highLow = service.getHighLowCategory();
-                    for (Map.Entry<String, Double> entry : highLow.entrySet()) {
-                        System.out.println("\n" + entry.getKey() + "\t" + entry.getValue().toString());
-                        System.out.println("\n" + entry.getKey() + "\t" + entry.getValue());
-                    }
+                    service.getHighLowCategory();
                 } else {
                     break;
                 }
