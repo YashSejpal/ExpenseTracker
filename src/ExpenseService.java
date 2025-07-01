@@ -95,7 +95,7 @@ public class ExpenseService {
         frame.setVisible(true);
     }
 
-    public Map<String, Double> getHighLowCategory() throws IOException, JSONException {
+    public void getHighLowCategory() throws IOException, JSONException {
         Map<String, Double> byCategory = getExpenseByCategory();
         String high = "", low = "";
         double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
@@ -109,9 +109,7 @@ public class ExpenseService {
                 low = entry.getKey();
             }
         }
-        Map<String, Double> result = new LinkedHashMap<>();
-//        result.put("Highest: " + high, max);
-//        result.put("Lowest: " + low, min);
-        return result;
+        System.out.println("Highest: " + high +"\t"+max);
+        System.out.println("Lowest: " + low+"\t"+min);
     }
 }
