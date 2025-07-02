@@ -4,7 +4,7 @@ This is a terminal-based Java expense tracker that shows expense trends and repo
 
 ## How to Set Up and Run
 
-### 1.Install Java
+### 1. Install Java and Git
 
 ### 2. Set Java PATH
 Follow this link : https://www.geeksforgeeks.org/java/how-to-set-java-path-in-windows-and-linux/
