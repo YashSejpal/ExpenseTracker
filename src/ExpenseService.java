@@ -10,11 +10,11 @@ import javax.swing.*;
 
 public class ExpenseService {
     private String filename;
-
+    //Parameterized constructor to initialize instance variable filename
     public ExpenseService(String username) {
         this.filename = username + "_expenses.json";
     }
-
+    //Adds a json object to a json array (adding one more expense to a array of expenses)
     public void addExpense(Expense e) throws IOException, JSONException {
         JSONArray expenses = loadExpensesJSONArray();
         JSONObject obj = new JSONObject();
@@ -24,7 +24,7 @@ public class ExpenseService {
         expenses.put(obj);
         saveExpenses(expenses);
     }
-
+    //loadExpenses() function adds all expenses from Username.json to a List data structure and returns it
     public List<Expense> loadExpenses() throws IOException, JSONException {
         JSONArray array = loadExpensesJSONArray();
         List<Expense> list = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ExpenseService {
         }
         return list;
     }
-
+    //Reads Username_expenses.json file and adds all expenses to a JSONArray
     private JSONArray loadExpensesJSONArray() throws IOException, JSONException {
         File file = new File(filename);
         if (!file.exists()) return new JSONArray();
@@ -50,17 +50,17 @@ public class ExpenseService {
         reader.close();
         return new JSONArray(sb.toString());
     }
-
+    //Writes expenses to Username.json file
     private void saveExpenses(JSONArray expenses) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
         writer.write(expenses.toString(4));
         writer.close();
     }
-
+    
     public double getTotalExpense() throws IOException, JSONException {
         return loadExpenses().stream().mapToDouble(Expense::getAmount).sum();
     }
-
+    //Makes a map to store category and sum of expenses in that category
     public Map<String, Double> getExpenseByCategory() throws IOException, JSONException {
         List<Expense> expenses = loadExpenses();
         Map<String, Double> map = new HashMap<>();
@@ -69,7 +69,7 @@ public class ExpenseService {
         }
         return map;
     }
-
+    //Makes a graph using JFreeChart class by making a dataset
     public void getExpenseTrend() throws IOException {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         List<Expense> expenses = loadExpenses();
@@ -94,7 +94,7 @@ public class ExpenseService {
         frame.setSize(800, 400);
         frame.setVisible(true);
     }
-
+    //Gets highest and lowest category expense from the map in getExpenseByCategory() function
     public void getHighLowCategory() throws IOException, JSONException {
         Map<String, Double> byCategory = getExpenseByCategory();
         String high = "", low = "";
