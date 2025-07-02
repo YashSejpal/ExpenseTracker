@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Main {
+    //Entry point for application
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         AuthService auth = new AuthService();
@@ -35,7 +36,7 @@ public class Main {
                     break OuterLoop;
                 }
             }
-
+            //Creating service object which allows us to access the entries in Username_expenses.json and perform operations
             ExpenseService service = new ExpenseService(username);
             while (true) {
                 System.out.println("\n1. Add Expense\n2. Show Total Expense\n3. Show Total Expense by category\n4. Show expense trend\n5. Show Highest and Lowest Spend Category\n6. Sign out");
@@ -63,9 +64,11 @@ public class Main {
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid number. Please enter a valid amount.");
                         }
+                        //NumberFormatException occured when entering blank lines in amount
                     }
 
                     String date = "";
+                    //Using regular expression for input validation so date is in correct format
                     String dateRegex = "^\\d{4}-\\d{2}-\\d{2}$"; // YYYY-MM-DD
                     while (true) {
                         System.out.print("Date (YYYY-MM-DD): ");
@@ -79,6 +82,7 @@ public class Main {
                     double total = service.getTotalExpense();
                     System.out.println("Total: " + total);
                 } else if (option == 3) {
+                    //Map with category and sum of expenses in that category
                     Map<String, Double> byCategory = service.getExpenseByCategory();
                     System.out.println("\nCategory:\tExpense");
                     for (Map.Entry<String, Double> entry : byCategory.entrySet()) {
