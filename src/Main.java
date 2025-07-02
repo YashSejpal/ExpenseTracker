@@ -5,7 +5,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         AuthService auth = new AuthService();
         String username = null;
+        OuterLoop:
         while (true) {
+            InnerLoop:
             while (true) {
                 System.out.println("1. Register\n2. Login\n3. Exit");
                 int choice = Integer.parseInt(sc.nextLine());
@@ -30,21 +32,48 @@ public class Main {
                         System.out.println("Invalid credentials.");
                     }
                 } else {
-                    return;
+                    break OuterLoop;
                 }
             }
 
             ExpenseService service = new ExpenseService(username);
             while (true) {
-                System.out.println("\n1. Add Expense\n2. Show Total Expense\n3. Show Total Expense by category\n4.Show expense trend\n5.Show Highest and Lowest Spend Category\n6.Sign out");
+                System.out.println("\n1. Add Expense\n2. Show Total Expense\n3. Show Total Expense by category\n4. Show expense trend\n5. Show Highest and Lowest Spend Category\n6. Sign out");
                 int option = Integer.parseInt(sc.nextLine());
                 if (option == 1) {
-                    System.out.print("Category: ");
-                    String cat = sc.nextLine();
-                    System.out.print("Amount: ");
-                    double amt = Double.parseDouble(sc.nextLine());
-                    System.out.print("Date (YYYY-MM-DD): ");
-                    String date = sc.nextLine();
+                    String cat = "";
+                    while (true) {
+                        System.out.print("Category: ");
+                        cat = sc.nextLine().trim();
+                        if (!cat.isEmpty()) break;
+                        System.out.println("Category cannot be empty.");
+                    }
+
+                    double amt = 0.0;
+                    while (true) {
+                        System.out.print("Amount: ");
+                        String amtInput = sc.nextLine().trim();
+                        try {
+                            amt = Double.parseDouble(amtInput);
+                            if (amt <= 0) {
+                                System.out.println("Amount must be greater than zero.");
+                                continue;
+                            }
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid number. Please enter a valid amount.");
+                        }
+                    }
+
+                    String date = "";
+                    String dateRegex = "^\\d{4}-\\d{2}-\\d{2}$"; // YYYY-MM-DD
+                    while (true) {
+                        System.out.print("Date (YYYY-MM-DD): ");
+                        date = sc.nextLine().trim();
+                        if (date.matches(dateRegex)) break;
+                        System.out.println("Invalid date format. Use YYYY-MM-DD.");
+                    }
+
                     service.addExpense(new Expense(cat, amt, date));
                 } else if (option == 2) {
                     double total = service.getTotalExpense();
